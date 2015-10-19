@@ -27,4 +27,4 @@ gpip3(){
 
 export PATH=$M2:$PG_HOME/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$PATH
 
-export HOMEBREW_GITHUB_API_TOKEN="7a299c5731d6a0887ed5db1a5087ef625318134f"
+export HOMEBREW_GITHUB_API_TOKEN="my_api_toke_here"
