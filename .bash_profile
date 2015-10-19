@@ -25,6 +25,6 @@ gpip3(){
    PIP_REQUIRE_VIRTUALENV="" pip3 "$@"
 }
 
-export PATH=$M2:$PG_HOME/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$PATH
+export PATH=$M2:$PG_HOME/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin:$PATH
 
 export HOMEBREW_GITHUB_API_TOKEN="my_api_toke_here"
