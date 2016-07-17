@@ -14,7 +14,10 @@
 
 (require 'package)
 (add-to-list 'package-archives
-              '("melpa" . "https://melpa.org/packages/") t)
+	     '("melpa" . "https://melpa.org/packages/") t)
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
 (use-package flycheck
@@ -39,3 +42,8 @@ See URL `https://github.com/tensor5/JSLinter'."
   :command ("/usr/local/bin/jslint" "--raw" source)
   :error-parser jslinter-error-parser
   :modes (js-mode js2-mode js3-mode))
+
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+(provide '.emacs)
+;;; .emacs ends here
