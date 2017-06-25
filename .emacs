@@ -28,7 +28,7 @@
  )
 (put 'upcase-region 'disabled nil)
 
-(setq paradox-github-token "be09fe607abde588dea2cfe16adcbefa6afb08d5")
+(setq paradox-github-token "SETME")
 (setq ispell-program-name "/usr/local/bin/ispell")
 
 (require 'package)
