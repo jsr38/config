@@ -6,7 +6,7 @@
  '(column-number-mode t)
  '(package-selected-packages
    (quote
-    (org virtualenvwrapper use-package typescript-mode realgud python-test python-mode python-environment python-docstring python pylint paradox flycheck-protobuf flycheck-google-cpplint flycheck-clojure)))
+    (htmlize org virtualenvwrapper use-package typescript-mode realgud python-test python-mode python-environment python-docstring python pylint paradox flycheck-protobuf flycheck-google-cpplint flycheck-clojure)))
  '(paradox-automatically-star t)
  '(safe-local-variable-values
    (quote
@@ -28,7 +28,7 @@
  )
 (put 'upcase-region 'disabled nil)
 
-(setq paradox-github-token "SETME")
+(setq paradox-github-token "be09fe607abde588dea2cfe16adcbefa6afb08d5")
 (setq ispell-program-name "/usr/local/bin/ispell")
 
 (require 'package)
@@ -93,15 +93,32 @@ See URL `https://github.com/tensor5/JSLinter'."
 	 :auto-preamble nil
          :auto-postamble nil
          )
-        ("org-static-jsr38"
+        ("org-static-images-jsr38"
          :base-directory "~/dev/bb-jsr38.github.io.git/_org/images"
          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
          :publishing-directory "~/dev/jsr38.github.io/assets"
          :recursive t
          :publishing-function org-publish-attachment)
 
-        ("jsr38" :components ("org-jsr38" "org-static-jsr38"))
+	("org-static-downloads-jsr38"
+         :base-directory "~/dev/bb-jsr38.github.io.git/_org/downloads"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
+         :publishing-directory "~/dev/jsr38.github.io/assets"
+         :recursive t
+         :publishing-function org-publish-attachment)
+
+        ("jsr38" :components ("org-jsr38"
+			      "org-static-images-jsr38"
+			      "org-static-downloads-jsr38"))
         ))
+
+(require 'ox-latex)
+(unless (boundp 'org-latex-classes)
+  (setq org-latex-classes nil))
+(add-to-list 'org-latex-classes
+             '("article"
+               "\\documentclass{article}"
+               ("\\section{%s}" . "\\section*{%s}")))
 
 (setq org-html-mathjax-options
       '((path "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js")
@@ -110,13 +127,21 @@ See URL `https://github.com/tensor5/JSLinter'."
         (indent "2em")
         (mathml nil)))
 
+(require 'ob-sh)
+
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((python julia shell . t)))
+ '((python . t)
+   (shell . t)))
 
 (setq org-startup-with-inline-images t)
 
 (setq org-src-fontify-natively t)
+
+(setq org-list-allow-alphabetical t)
+
+(when (executable-find "ipython")
+  '(setq python-shell-interpreter "ipython"))
 
 (provide '.emacs)
 ;;; .emacs ends here
