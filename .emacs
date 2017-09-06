@@ -28,7 +28,7 @@
  )
 (put 'upcase-region 'disabled nil)
 
-(setq paradox-github-token "be09fe607abde588dea2cfe16adcbefa6afb08d5")
+(setq paradox-github-token "SETME")
 (setq ispell-program-name "/usr/local/bin/ispell")
 
 (require 'package)
@@ -78,7 +78,7 @@ See URL `https://github.com/tensor5/JSLinter'."
 (setq org-publish-project-alist
       '(("org-jsr38"
          ;; Path to your org files.
-         :base-directory "~/dev/bb-jsr38.github.io.git/_org"
+         :base-directory "~/dev/bb-jsr38.github.io/_org"
          :base-extension "org"
          ;; Path to your Jekyll project.
          :publishing-directory "~/dev/jsr38.github.io/_posts"
@@ -94,14 +94,14 @@ See URL `https://github.com/tensor5/JSLinter'."
          :auto-postamble nil
          )
         ("org-static-images-jsr38"
-         :base-directory "~/dev/bb-jsr38.github.io.git/_org/images"
+         :base-directory "~/dev/bb-jsr38.github.io/_org/images"
          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
          :publishing-directory "~/dev/jsr38.github.io/assets"
          :recursive t
          :publishing-function org-publish-attachment)
 
 	("org-static-downloads-jsr38"
-         :base-directory "~/dev/bb-jsr38.github.io.git/_org/downloads"
+         :base-directory "~/dev/bb-jsr38.github.io/_org/downloads"
          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
          :publishing-directory "~/dev/jsr38.github.io/assets"
          :recursive t
@@ -127,6 +127,26 @@ See URL `https://github.com/tensor5/JSLinter'."
         (indent "2em")
         (mathml nil)))
 
+(require 'ob-python)
+(require 'ob-clojure)
+(require 'ob-perl)
+(require 'ob-dot)
+(require 'ob-R)
+(require 'ob-gnuplot)
+(require 'ob-lisp)
+(require 'ob-org)
+(require 'ob-screen)
+(require 'ob-calc)
+(require 'ob-js)
+(require 'ob-latex)
+(require 'ob-plantuml)
+(require 'ob-sh)
+(require 'ob-ditaa)
+(require 'ob-awk)
+(require 'ob-octave)
+(require 'ob-sed)
+(require 'ob-sql)
+(require 'ob-sqlite)
 (require 'ob-sh)
 
 (org-babel-do-load-languages
@@ -135,13 +155,48 @@ See URL `https://github.com/tensor5/JSLinter'."
    (shell . t)))
 
 (setq org-startup-with-inline-images t)
-
+(setq org-startup-truncated nil)
 (setq org-src-fontify-natively t)
 
 (setq org-list-allow-alphabetical t)
 
-(when (executable-find "ipython")
-  '(setq python-shell-interpreter "ipython"))
+(require 'org-ref)
+(require 'org-ref-pdf)
+(require 'org-ref-url-utils)
+
+(setq reftex-default-bibliography '("~/dev/bibliography/references.bib"))
+
+;; see org-ref for use of these variables
+(setq org-ref-bibliography-notes "~/dev/bibliography/notes.org"
+      org-ref-default-bibliography '("~/dev/bibliography/references.bib")
+      org-ref-pdf-directory "~/dev/bibliography/bibtex-pdfs/")
+
+(setq bibtex-completion-bibliography "~/dev/bibliography/references.bib"
+      bibtex-completion-library-path "~/dev/bibliography/bibtex-pdfs"
+      bibtex-completion-notes-path "~/dev/bibliography/helm-bibtex-notes")
+
+;; open pdf with system pdf viewer (works on mac)
+(setq bibtex-completion-pdf-open-function
+  (lambda (fpath)
+    (start-process "open" "*open*" "open" fpath)))
+
+;; alternative
+;; (setq bibtex-completion-pdf-open-function 'org-open-file)
+
+;;(when (executable-find "ipython")
+;;  (setq python-shell-interpreter "ipython"))
+
+(setq python-shell-interpreter "python")
+
+(with-eval-after-load 'python
+  (defun python-shell-completion-native-try ()
+    "Return non-nil if can trigger native completion."
+    (let ((python-shell-completion-native-enable t)
+          (python-shell-completion-native-output-timeout
+           python-shell-completion-native-try-output-timeout))
+      (python-shell-completion-native-get-completions
+       (get-buffer-process (current-buffer))
+       nil "_"))))
 
 (provide '.emacs)
 ;;; .emacs ends here
