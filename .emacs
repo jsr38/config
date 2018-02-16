@@ -6,7 +6,7 @@
  '(column-number-mode t)
  '(package-selected-packages
    (quote
-    (htmlize org virtualenvwrapper use-package typescript-mode realgud python-test python-mode python-environment python-docstring python pylint paradox flycheck-protobuf flycheck-google-cpplint flycheck-clojure)))
+    (htmlize virtualenvwrapper use-package typescript-mode realgud python-test python-mode python-environment python-docstring python pylint paradox flycheck-protobuf flycheck-google-cpplint flycheck-clojure)))
  '(paradox-automatically-star t)
  '(safe-local-variable-values
    (quote
@@ -65,14 +65,19 @@ See URL `https://github.com/tensor5/JSLinter'."
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+(use-package virtualenvwrapper)
 (require 'virtualenvwrapper)
 (venv-initialize-interactive-shells) ;; if you want interactive shell support
 (venv-initialize-eshell) ;; if you want eshell support
-(setq venv-location "/Users/jsr/virtualenvs")
+(setq venv-location "/home/dpr/virtualenvs")
 
 (setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format))
 
 ;;; org-mode
+(require 'org)
+(require 'htmlize)  ;; for HTML export to work
+
+(setq org-preview-latex-default-process 'imagemagick) ;; org-mode > 9.0 !!
 
 (require 'ox-publish)
 (setq org-publish-project-alist
@@ -131,7 +136,7 @@ See URL `https://github.com/tensor5/JSLinter'."
 (require 'ob-clojure)
 (require 'ob-perl)
 (require 'ob-dot)
-(require 'ob-R)
+;; (require 'ob-R)
 (require 'ob-gnuplot)
 (require 'ob-lisp)
 (require 'ob-org)
@@ -140,11 +145,9 @@ See URL `https://github.com/tensor5/JSLinter'."
 (require 'ob-js)
 (require 'ob-latex)
 (require 'ob-plantuml)
-(require 'ob-sh)
 (require 'ob-ditaa)
 (require 'ob-awk)
 (require 'ob-octave)
-(require 'ob-sed)
 (require 'ob-sql)
 (require 'ob-sqlite)
 (require 'ob-sh)
@@ -152,7 +155,7 @@ See URL `https://github.com/tensor5/JSLinter'."
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((python . t)
-   (shell . t)))
+   (sh . t)))
 
 (setq org-startup-with-inline-images t)
 (setq org-startup-truncated nil)
