@@ -1,16 +1,15 @@
 
-export M2_HOME=/usr/local/apache-maven-3.2.3
-export M2=$M2_HOME/bin
 
-export JAVA_HOME=$(/usr/libexec/java_home)
+#export JAVA_HOME=/usr/lib/jvm/default-java
 
-export PG_HOME=/Library/PostgreSQL/9.3
+export ANDROID_HOME=$HOME/Android/Sdk
+export ANDROID_SDK_HOME=$HOME/.android
 
-export ANDROID_SDK_HOME=/Users/jsr/Downloads/adt-bundle-mac-x86_64-20140702/sdk
+# The following is to resolve incompatibility between
+# emulator libstdc++ and system library equivalent
 
-export M2_REPO=/Users/jsr/.m2/repository
+export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
 
-export HOMEBREW_EDITOR="emacs -nw"
 
 # pip should only run if there is a virtualenv currently activated
 export PIP_REQUIRE_VIRTUALENV=true
@@ -25,6 +24,14 @@ gpip3(){
    PIP_REQUIRE_VIRTUALENV="" pip3 "$@"
 }
 
-export PATH=$M2:$PG_HOME/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin:$PATH
+export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 
 export HOMEBREW_GITHUB_API_TOKEN="my_api_toke_here"
+
+export QSYS_ROOTDIR="/home/jsr/intelFPGA_lite/17.1/quartus/sopc_builder/bin"
+
+alias tks='tmux kill-session -t jsr-dev'
+alias tns='tmux new-session -s jsr-dev'
+alias sshsr='ssh -l dpr -X -L 50037:localhost:5037 192.168.1.104'
+
+alias start-studio-remote-adb='ANDROID_ADB_SERVER_PORT=50037 ~/Downloads/android-studio-3.1-beta1/android-studio/bin/studio.sh'
